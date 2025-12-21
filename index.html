@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>For You ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      height: 100vh;
+      background: black;
+      color: white;
+      overflow: hidden;
+    }
+
+    .cover {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      cursor: pointer;
+      background: black;
+    }
+
+    .cover h1 {
+      border: 2px solid white;
+      padding: 20px 30px;
+      font-size: 24px;
+      letter-spacing: 1px;
+    }
+
+    .content {
+      display: none;
+      height: 100vh;
+      background-size: cover;
+      background-position: center;
+      padding: 40px;
+      box-sizing: border-box;
+      background-image: url('photo.jpg');
+    }
+
+    .message {
+      background: rgba(0,0,0,0.6);
+      padding: 25px;
+      max-width: 600px;
+      margin-top: 60px;
+      border-radius: 10px;
+    }
+
+    .message p {
+      line-height: 1.6;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="cover" onclick="openSurprise()">
+  <h1>Tap to open your surprise 💖</h1>
+</div>
+
+<div class="content" id="content">
+  <div class="message">
+    <p>Five years with you didn’t just pass.<br>They stayed.<br>In memories, in growth, in the quiet moments only we know.</p>
+
+    <p>You’ve seen me at my best and my worst,<br>and somehow you chose to stay.<br>That means more to me than words can explain.</p>
+
+    <p>With you, love feels steady.<br>Safe.<br>Real.</p>
+
+    <p>I don’t know what the future holds,<br>but I know this —<br>I want every version of it with you.</p>
+  </div>
+</div>
+
+<script>
+  function openSurprise() {
+    document.querySelector('.cover').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
