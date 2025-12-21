@@ -13,7 +13,7 @@
       overflow: hidden;
     }
 
-    /* OPENING */
+    /* OPENING SCREEN */
     .cover {
       height: 100vh;
       display: flex;
@@ -67,22 +67,16 @@
       opacity: 0;
     }
 
+    /* FINAL GLOW */
     .glow {
-  animation: softGlow 2.5s ease-in-out infinite;
-}
+      animation: softGlow 2.5s ease-in-out infinite;
+    }
 
-@keyframes softGlow {
-  0% {
-    text-shadow: 0 0 6px rgba(255,182,193,0.6);
-  }
-  50% {
-    text-shadow: 0 0 14px rgba(255,182,193,1);
-  }
-  100% {
-    text-shadow: 0 0 6px rgba(255,182,193,0.6);
-  }
-}
-
+    @keyframes softGlow {
+      0% { text-shadow: 0 0 6px rgba(255,182,193,0.6); }
+      50% { text-shadow: 0 0 14px rgba(255,182,193,1); }
+      100% { text-shadow: 0 0 6px rgba(255,182,193,0.6); }
+    }
 
     /* FLOATING HEARTS */
     .heart {
@@ -94,15 +88,28 @@
     }
 
     @keyframes floatUp {
-      0% {
-        transform: translateY(0) scale(1);
-        opacity: 0;
-      }
+      0% { transform: translateY(0); opacity: 0; }
       10% { opacity: 0.7; }
-      100% {
-        transform: translateY(-120vh) scale(1.5);
-        opacity: 0;
-      }
+      100% { transform: translateY(-120vh); opacity: 0; }
+    }
+
+    /* INSTAGRAM BUTTON */
+    .insta-box {
+      margin-top: 30px;
+      padding: 14px;
+      text-align: center;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.25);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+      backdrop-filter: blur(6px);
+    }
+
+    .insta-box.show {
+      opacity: 1;
     }
 
     @keyframes pulse {
@@ -110,24 +117,6 @@
       50% { transform: scale(1.05); }
       100% { transform: scale(1); }
     }
-
-    .insta-box {
-  margin-top: 30px;
-  padding: 14px;
-  text-align: center;
-  border-radius: 14px;
-  background: rgba(255,255,255,0.25);
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 1.5s ease;
-  backdrop-filter: blur(6px);
-}
-
-.insta-box.show {
-  opacity: 1;
-}
   </style>
 </head>
 
@@ -148,105 +137,84 @@
 <!-- CONTENT -->
 <div class="content" id="content">
   <div class="overlay" id="overlay">
+
     <div class="message" id="message"></div>
+
+    <div class="insta-box" id="instaBox" onclick="openInstagram()">
+      Tap to view 💗
+    </div>
+
   </div>
 </div>
 
-  <div class="insta-box" id="instaBox" onclick="openInstagram()">
-  Tap to view 💗
-</div>
-
-
 <script>
   const paragraphs = [
-  {
-    text: "Five years with you didn’t just pass.\nThey stayed.\nIn memories, in growth, in the quiet moments only we know.",
-    glow: false
-  },
-  {
-    text: "You’ve seen me at my best and my worst,\nand somehow you chose to stay.\nThat means more to me than words can explain.",
-    glow: false
-  },
-  {
-    text: "With you, love feels steady.\nSafe.\nReal.",
-    glow: false
-  },
-  {
-    text: "I don’t know what the future holds,\nbut I know this —\nI want every version of it with you.",
-    glow: false
-  },
-  {
-    text: "Happy Birthday, Nithya.\nStill choosing you. Always.",
-    glow: true
-  }
-];
-
+    { text: "Five years with you didn’t just pass.\nThey stayed.\nIn memories, in growth, in the quiet moments only we know.", glow: false },
+    { text: "You’ve seen me at my best and my worst,\nand somehow you chose to stay.\nThat means more to me than words can explain.", glow: false },
+    { text: "With you, love feels steady.\nSafe.\nReal.", glow: false },
+    { text: "I don’t know what the future holds,\nbut I know this —\nI want every version of it with you.", glow: false },
+    { text: "Happy Birthday, Nithya.\nStill choosing you. Always.", glow: true }
+  ];
 
   function openSurprise() {
     document.getElementById("cover").style.display = "none";
     document.getElementById("content").style.display = "block";
-
     document.getElementById("music").play();
     typeWriter();
     startHearts();
   }
 
   function typeWriter() {
-  const container = document.getElementById("message");
-  let delay = 0;
+    const container = document.getElementById("message");
+    let delay = 0;
 
-  paragraphs.forEach(item => {
-    const p = document.createElement("p");
-    container.appendChild(p);
+    paragraphs.forEach(item => {
+      const p = document.createElement("p");
+      container.appendChild(p);
 
-    setTimeout(() => {
-      let i = 0;
-      p.style.opacity = 1;
+      setTimeout(() => {
+        let i = 0;
+        p.style.opacity = 1;
 
-      const interval = setInterval(() => {
-        if (item.text.charAt(i) === "\n") {
-          p.innerHTML += "<br>";
-        } else {
-          p.innerHTML += item.text.charAt(i);
-        }
-        i++;
-
-        if (i >= item.text.length) {
-          clearInterval(interval);
-          if (item.glow) {
-            p.classList.add("glow");
-            setTimeout(() => {
-    document.getElementById("instaBox").classList.add("show");
-  }, 1200);
-}
+        const interval = setInterval(() => {
+          if (item.text.charAt(i) === "\n") {
+            p.innerHTML += "<br>";
+          } else {
+            p.innerHTML += item.text.charAt(i);
           }
-        }
-      }, 30);
-    }, delay);
+          i++;
 
-    delay += item.text.length * 30 + 700;
-  });
-}
+          if (i >= item.text.length) {
+            clearInterval(interval);
+            if (item.glow) {
+              p.classList.add("glow");
+              setTimeout(() => {
+                document.getElementById("instaBox").classList.add("show");
+              }, 1200);
+            }
+          }
+        }, 30);
+      }, delay);
 
+      delay += item.text.length * 30 + 700;
+    });
+  }
 
   function startHearts() {
     const overlay = document.getElementById("overlay");
-
     setInterval(() => {
       const heart = document.createElement("div");
       heart.className = "heart";
       heart.innerHTML = "💗";
       heart.style.left = Math.random() * 100 + "%";
-      heart.style.animationDuration = (4 + Math.random() * 4) + "s";
       overlay.appendChild(heart);
-
       setTimeout(() => heart.remove(), 7000);
     }, 500);
   }
 
   function openInstagram() {
-  window.open("https://instagram.com/__mr_mystrie__", "_blank");
-}
+    window.open("https://instagram.com/__mr_mystrie__", "_blank");
+  }
 </script>
 
 </body>
