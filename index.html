@@ -13,14 +13,13 @@
       overflow: hidden;
     }
 
-    /* OPENING SCREEN */
+    /* OPENING */
     .cover {
       height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       background: linear-gradient(135deg, #fbc2eb, #fdd6bd);
-      animation: fadeIn 1.2s ease;
     }
 
     .open-box {
@@ -38,10 +37,9 @@
       font-size: 20px;
       color: #5a2a3c;
       margin: 0;
-      letter-spacing: 0.5px;
     }
 
-    /* CONTENT SCREEN */
+    /* CONTENT */
     .content {
       display: none;
       height: 100vh;
@@ -50,7 +48,6 @@
       background-position: center;
       padding: 20px;
       box-sizing: border-box;
-      animation: fadeIn 1.5s ease;
     }
 
     .overlay {
@@ -59,6 +56,7 @@
       border-radius: 18px;
       padding: 24px;
       overflow-y: auto;
+      position: relative;
     }
 
     .message p {
@@ -69,10 +67,25 @@
       opacity: 0;
     }
 
-    /* ANIMATIONS */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    /* FLOATING HEARTS */
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 18px;
+      animation: floatUp 6s linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+      }
+      10% { opacity: 0.7; }
+      100% {
+        transform: translateY(-120vh) scale(1.5);
+        opacity: 0;
+      }
     }
 
     @keyframes pulse {
@@ -85,6 +98,11 @@
 
 <body>
 
+<!-- MUSIC -->
+<audio id="music" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
 <!-- OPENING -->
 <div class="cover" id="cover" onclick="openSurprise()">
   <div class="open-box">
@@ -94,49 +112,73 @@
 
 <!-- CONTENT -->
 <div class="content" id="content">
-  <div class="overlay">
-    <div class="message" id="message">
-      <p>Five years with you didn’t just pass.<br>They stayed.<br>In memories, in growth, in the quiet moments only we know.</p>
-
-      <p>You’ve seen me at my best and my worst,<br>and somehow you chose to stay.<br>That means more to me than words can explain.</p>
-
-      <p>With you, love feels steady.<br>Safe.<br>Real.</p>
-
-      <p>I don’t know what the future holds,<br>but I know this —<br>I want every version of it with you.</p>
-
-      <p><strong>Happy Birthday, Nithya.<br>
-      Still choosing you. Always.</strong></p>
-    </div>
+  <div class="overlay" id="overlay">
+    <div class="message" id="message"></div>
   </div>
 </div>
 
 <script>
+  const paragraphs = [
+    "Five years with you didn’t just pass.\nThey stayed.\nIn memories, in growth, in the quiet moments only we know.",
+
+    "You’ve seen me at my best and my worst,\nand somehow you chose to stay.\nThat means more to me than words can explain.",
+
+    "With you, love feels steady.\nSafe.\nReal.",
+
+    "I don’t know what the future holds,\nbut I know this —\nI want every version of it with you.",
+
+    "Happy Birthday, Nithya.\nStill choosing you. Always."
+  ];
+
   function openSurprise() {
     document.getElementById("cover").style.display = "none";
     document.getElementById("content").style.display = "block";
+
+    document.getElementById("music").play();
     typeWriter();
+    startHearts();
   }
 
   function typeWriter() {
-    const paragraphs = document.querySelectorAll(".message p");
+    const container = document.getElementById("message");
     let delay = 0;
 
-    paragraphs.forEach((p) => {
-      const text = p.innerHTML;
-      p.innerHTML = "";
-      p.style.opacity = 1;
+    paragraphs.forEach(text => {
+      const p = document.createElement("p");
+      container.appendChild(p);
 
-      let i = 0;
       setTimeout(() => {
+        let i = 0;
+        p.style.opacity = 1;
+
         const interval = setInterval(() => {
-          p.innerHTML += text.charAt(i);
+          if (text.charAt(i) === "\n") {
+            p.innerHTML += "<br>";
+          } else {
+            p.innerHTML += text.charAt(i);
+          }
           i++;
           if (i >= text.length) clearInterval(interval);
-        }, 25);
+        }, 30);
       }, delay);
 
-      delay += text.length * 25 + 600;
+      delay += text.length * 30 + 700;
     });
+  }
+
+  function startHearts() {
+    const overlay = document.getElementById("overlay");
+
+    setInterval(() => {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "💗";
+      heart.style.left = Math.random() * 100 + "%";
+      heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+      overlay.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 7000);
+    }, 500);
   }
 </script>
 
