@@ -67,6 +67,23 @@
       opacity: 0;
     }
 
+    .glow {
+  animation: softGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes softGlow {
+  0% {
+    text-shadow: 0 0 6px rgba(255,182,193,0.6);
+  }
+  50% {
+    text-shadow: 0 0 14px rgba(255,182,193,1);
+  }
+  100% {
+    text-shadow: 0 0 6px rgba(255,182,193,0.6);
+  }
+}
+
+
     /* FLOATING HEARTS */
     .heart {
       position: absolute;
@@ -119,16 +136,28 @@
 
 <script>
   const paragraphs = [
-    "Five years with you didn’t just pass.\nThey stayed.\nIn memories, in growth, in the quiet moments only we know.",
+  {
+    text: "Five years with you didn’t just pass.\nThey stayed.\nIn memories, in growth, in the quiet moments only we know.",
+    glow: false
+  },
+  {
+    text: "You’ve seen me at my best and my worst,\nand somehow you chose to stay.\nThat means more to me than words can explain.",
+    glow: false
+  },
+  {
+    text: "With you, love feels steady.\nSafe.\nReal.",
+    glow: false
+  },
+  {
+    text: "I don’t know what the future holds,\nbut I know this —\nI want every version of it with you.",
+    glow: false
+  },
+  {
+    text: "Happy Birthday, Nithya.\nStill choosing you. Always.",
+    glow: true
+  }
+];
 
-    "You’ve seen me at my best and my worst,\nand somehow you chose to stay.\nThat means more to me than words can explain.",
-
-    "With you, love feels steady.\nSafe.\nReal.",
-
-    "I don’t know what the future holds,\nbut I know this —\nI want every version of it with you.",
-
-    "Happy Birthday, Nithya.\nStill choosing you. Always."
-  ];
 
   function openSurprise() {
     document.getElementById("cover").style.display = "none";
@@ -140,31 +169,38 @@
   }
 
   function typeWriter() {
-    const container = document.getElementById("message");
-    let delay = 0;
+  const container = document.getElementById("message");
+  let delay = 0;
 
-    paragraphs.forEach(text => {
-      const p = document.createElement("p");
-      container.appendChild(p);
+  paragraphs.forEach(item => {
+    const p = document.createElement("p");
+    container.appendChild(p);
 
-      setTimeout(() => {
-        let i = 0;
-        p.style.opacity = 1;
+    setTimeout(() => {
+      let i = 0;
+      p.style.opacity = 1;
 
-        const interval = setInterval(() => {
-          if (text.charAt(i) === "\n") {
-            p.innerHTML += "<br>";
-          } else {
-            p.innerHTML += text.charAt(i);
+      const interval = setInterval(() => {
+        if (item.text.charAt(i) === "\n") {
+          p.innerHTML += "<br>";
+        } else {
+          p.innerHTML += item.text.charAt(i);
+        }
+        i++;
+
+        if (i >= item.text.length) {
+          clearInterval(interval);
+          if (item.glow) {
+            p.classList.add("glow");
           }
-          i++;
-          if (i >= text.length) clearInterval(interval);
-        }, 30);
-      }, delay);
+        }
+      }, 30);
+    }, delay);
 
-      delay += text.length * 30 + 700;
-    });
-  }
+    delay += item.text.length * 30 + 700;
+  });
+}
+
 
   function startHearts() {
     const overlay = document.getElementById("overlay");
