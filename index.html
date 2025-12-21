@@ -2,79 +2,141 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>For You ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For Nithya ❤️</title>
+
   <style>
     body {
       margin: 0;
       font-family: 'Georgia', serif;
       height: 100vh;
-      background: black;
-      color: white;
       overflow: hidden;
     }
 
+    /* OPENING SCREEN */
     .cover {
+      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      background: linear-gradient(135deg, #fbc2eb, #fdd6bd);
+      animation: fadeIn 1.2s ease;
+    }
+
+    .open-box {
+      background: rgba(255,255,255,0.25);
+      border-radius: 18px;
+      padding: 28px 32px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
       cursor: pointer;
-      background: black;
+      animation: pulse 2s infinite;
     }
 
-    .cover h1 {
-      border: 2px solid white;
-      padding: 20px 30px;
-      font-size: 24px;
-      letter-spacing: 1px;
+    .open-box p {
+      font-size: 20px;
+      color: #5a2a3c;
+      margin: 0;
+      letter-spacing: 0.5px;
     }
 
+    /* CONTENT SCREEN */
     .content {
       display: none;
       height: 100vh;
+      background-image: url('photo.jpg');
       background-size: cover;
       background-position: center;
-      padding: 40px;
+      padding: 20px;
       box-sizing: border-box;
-      background-image: url('photo.jpg');
+      animation: fadeIn 1.5s ease;
     }
 
-    .message {
-      background: rgba(0,0,0,0.6);
-      padding: 25px;
-      max-width: 600px;
-      margin-top: 60px;
-      border-radius: 10px;
+    .overlay {
+      background: rgba(0,0,0,0.55);
+      height: 100%;
+      border-radius: 18px;
+      padding: 24px;
+      overflow-y: auto;
     }
 
     .message p {
-      line-height: 1.6;
-      font-size: 18px;
+      font-size: 17px;
+      line-height: 1.7;
+      color: #fff;
+      margin-bottom: 22px;
+      opacity: 0;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
   </style>
 </head>
+
 <body>
 
-<div class="cover" onclick="openSurprise()">
-  <h1>Tap to open your surprise 💖</h1>
+<!-- OPENING -->
+<div class="cover" id="cover" onclick="openSurprise()">
+  <div class="open-box">
+    <p>Tap to open your surprise 💗</p>
+  </div>
 </div>
 
+<!-- CONTENT -->
 <div class="content" id="content">
-  <div class="message">
-    <p>Five years with you didn’t just pass.<br>They stayed.<br>In memories, in growth, in the quiet moments only we know.</p>
+  <div class="overlay">
+    <div class="message" id="message">
+      <p>Five years with you didn’t just pass.<br>They stayed.<br>In memories, in growth, in the quiet moments only we know.</p>
 
-    <p>You’ve seen me at my best and my worst,<br>and somehow you chose to stay.<br>That means more to me than words can explain.</p>
+      <p>You’ve seen me at my best and my worst,<br>and somehow you chose to stay.<br>That means more to me than words can explain.</p>
 
-    <p>With you, love feels steady.<br>Safe.<br>Real.</p>
+      <p>With you, love feels steady.<br>Safe.<br>Real.</p>
 
-    <p>I don’t know what the future holds,<br>but I know this —<br>I want every version of it with you.</p>
+      <p>I don’t know what the future holds,<br>but I know this —<br>I want every version of it with you.</p>
+
+      <p><strong>Happy Birthday, Nithya.<br>
+      Still choosing you. Always.</strong></p>
+    </div>
   </div>
 </div>
 
 <script>
   function openSurprise() {
-    document.querySelector('.cover').style.display = 'none';
-    document.getElementById('content').style.display = 'block';
+    document.getElementById("cover").style.display = "none";
+    document.getElementById("content").style.display = "block";
+    typeWriter();
+  }
+
+  function typeWriter() {
+    const paragraphs = document.querySelectorAll(".message p");
+    let delay = 0;
+
+    paragraphs.forEach((p) => {
+      const text = p.innerHTML;
+      p.innerHTML = "";
+      p.style.opacity = 1;
+
+      let i = 0;
+      setTimeout(() => {
+        const interval = setInterval(() => {
+          p.innerHTML += text.charAt(i);
+          i++;
+          if (i >= text.length) clearInterval(interval);
+        }, 25);
+      }, delay);
+
+      delay += text.length * 25 + 600;
+    });
   }
 </script>
 
