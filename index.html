@@ -8,214 +8,206 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Georgia', serif;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* OPENING SCREEN */
-    .cover {
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #fbc2eb, #fdd6bd);
+      align-items: center;
+      background: linear-gradient(135deg, #fde2e4, #fad2e1);
+      font-family: 'Segoe UI', sans-serif;
+      color: #333;
     }
 
-    .open-box {
-      background: rgba(255,255,255,0.25);
-      border-radius: 18px;
-      padding: 28px 32px;
+    .container {
+      width: 90%;
+      max-width: 380px;
       text-align: center;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-      cursor: pointer;
-      animation: pulse 2s infinite;
     }
 
-    .open-box p {
-      font-size: 20px;
-      color: #5a2a3c;
-      margin: 0;
-    }
-
-    /* CONTENT */
-    .content {
-      display: none;
-      height: 100vh;
-      background-image: url('photo.jpg');
-      background-size: cover;
-      background-position: center;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-
-    .overlay {
-      background: rgba(0,0,0,0.55);
-      height: 100%;
-      border-radius: 18px;
-      padding: 24px;
-      overflow-y: auto;
+    .box {
+      background: white;
+      padding: 28px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
       position: relative;
+      z-index: 2;
     }
 
-    .message p {
-      font-size: 17px;
-      line-height: 1.7;
-      color: #fff;
-      margin-bottom: 22px;
-      opacity: 0;
+    .hidden {
+      display: none;
     }
 
-    /* FINAL GLOW */
-    .glow {
-      animation: softGlow 2.5s ease-in-out infinite;
+    h1 {
+      color: #e63946;
+      margin-bottom: 12px;
     }
 
-    @keyframes softGlow {
-      0% { text-shadow: 0 0 6px rgba(255,182,193,0.6); }
-      50% { text-shadow: 0 0 14px rgba(255,182,193,1); }
-      100% { text-shadow: 0 0 6px rgba(255,182,193,0.6); }
-    }
-
-    /* FLOATING HEARTS */
-    .heart {
-      position: absolute;
-      bottom: -20px;
-      font-size: 18px;
-      animation: floatUp 6s linear infinite;
-      opacity: 0.7;
-    }
-
-    @keyframes floatUp {
-      0% { transform: translateY(0); opacity: 0; }
-      10% { opacity: 0.7; }
-      100% { transform: translateY(-120vh); opacity: 0; }
-    }
-
-    /* INSTAGRAM BUTTON */
-    .insta-box {
-      margin-top: 30px;
-      padding: 14px;
-      text-align: center;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.25);
-      color: white;
+    p {
       font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .from {
+      margin-top: 22px;
+      font-weight: bold;
+    }
+
+    /* First screen */
+    .tap-box {
       cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .tap-box:hover {
+      transform: scale(1.03);
+    }
+
+    /* Background memory photos */
+    .bg-photos {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      opacity: 0.2;
+      filter: blur(2px);
+      z-index: 1;
+    }
+
+    .bg-photos img {
+      width: 120px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 16px;
+    }
+
+    /* Reveal button */
+    .reveal-btn {
+      margin-top: 26px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 30px;
+      background: #e63946;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .reveal-btn:hover {
+      opacity: 0.9;
+    }
+
+    /* Video section */
+    .video-box {
+      margin-top: 22px;
       opacity: 0;
-      transition: opacity 1.5s ease;
-      backdrop-filter: blur(6px);
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
     }
 
-    .insta-box.show {
+    .video-box.show {
       opacity: 1;
+      transform: translateY(0);
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
+    .video-box video {
+      width: 100%;
+      border-radius: 14px;
     }
   </style>
 </head>
-
 <body>
 
-<!-- MUSIC -->
-<audio id="music" loop>
-  <source src="song.mp3" type="audio/mpeg">
-</audio>
+  <div class="container">
 
-<!-- OPENING -->
-<div class="cover" id="cover" onclick="openSurprise()">
-  <div class="open-box">
-    <p>Tap to open your surprise 💗</p>
-  </div>
-</div>
-
-<!-- CONTENT -->
-<div class="content" id="content">
-  <div class="overlay" id="overlay">
-
-    <div class="message" id="message"></div>
-
-    <div class="insta-box" id="instaBox" onclick="openInstagram()">
-      ME on insta 💗
+    <!-- First Tap Screen -->
+    <div id="surpriseBox" class="box tap-box">
+      <h1>💝</h1>
+      <p><strong>Tap here to open your surprise</strong></p>
+      <p style="font-size:14px;">This one is just for you, Nithya</p>
     </div>
 
+    <!-- Message Screen -->
+    <div id="messageBox" class="box hidden">
+
+      <!-- Background photos -->
+      <div class="bg-photos">
+        <img src="photo1.jpg" alt="Us">
+        <img src="photo2.jpg" alt="Us">
+        <img src="photo3.jpg" alt="Us">
+      </div>
+
+      <h1>Happy Birthday, Nithya ❤️</h1>
+
+      <p>
+        Five years with you didn’t just pass.  
+        They stayed.  
+        In memories, in growth, in the quiet moments only we know.
+      </p>
+
+      <p>
+        You’ve seen me at my best and my worst,  
+        and somehow you chose to stay.  
+        That means more to me than words can explain.
+      </p>
+
+      <p>
+        With you, love feels steady.  
+        Safe.  
+        Real.
+      </p>
+
+      <p>
+        I don’t know what the future holds,  
+        but I know this —  
+        I want every version of it with you.
+      </p>
+
+      <div class="from">
+        — Madhan
+      </div>
+
+      <!-- Reveal button -->
+      <button id="revealBtn" class="reveal-btn">
+        Click to view another one 💌
+      </button>
+
+      <!-- Video -->
+      <div id="videoBox" class="video-box">
+        <video id="memoryVideo" controls playsinline>
+          <source src="video.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+    </div>
   </div>
-</div>
 
-<script>
-  const paragraphs = [
-    { text: "Five years with you didn’t just pass.\nThey stayed.\nIn memories, in growth, in the quiet moments only we know.", glow: false },
-    { text: "You’ve seen me at my best and my worst,\nand somehow you chose to stay.\nThat means more to me than words can explain.", glow: false },
-    { text: "With you, love feels steady.\nSafe.\nReal.", glow: false },
-    { text: "I don’t know what the future holds,\nbut I know this —\nI want every version of it with you.", glow: false },
-    { text: "Happy Birthday, Nithya.\nStill choosing you. Always.", glow: true }
-  ];
+  <!-- Background Music -->
+  <audio id="bgMusic" src="music.mp3"></audio>
 
-  function openSurprise() {
-    document.getElementById("cover").style.display = "none";
-    document.getElementById("content").style.display = "block";
-    document.getElementById("music").play();
-    typeWriter();
-    startHearts();
-  }
+  <script>
+    const surpriseBox = document.getElementById("surpriseBox");
+    const messageBox = document.getElementById("messageBox");
+    const music = document.getElementById("bgMusic");
+    const revealBtn = document.getElementById("revealBtn");
+    const videoBox = document.getElementById("videoBox");
+    const video = document.getElementById("memoryVideo");
 
-  function typeWriter() {
-    const container = document.getElementById("message");
-    let delay = 0;
-
-    paragraphs.forEach(item => {
-      const p = document.createElement("p");
-      container.appendChild(p);
-
-      setTimeout(() => {
-        let i = 0;
-        p.style.opacity = 1;
-
-        const interval = setInterval(() => {
-          if (item.text.charAt(i) === "\n") {
-            p.innerHTML += "<br>";
-          } else {
-            p.innerHTML += item.text.charAt(i);
-          }
-          i++;
-
-          if (i >= item.text.length) {
-            clearInterval(interval);
-            if (item.glow) {
-              p.classList.add("glow");
-              setTimeout(() => {
-                document.getElementById("instaBox").classList.add("show");
-              }, 1200);
-            }
-          }
-        }, 30);
-      }, delay);
-
-      delay += item.text.length * 30 + 700;
+    surpriseBox.addEventListener("click", () => {
+      surpriseBox.style.display = "none";
+      messageBox.classList.remove("hidden");
+      music.volume = 0.4;
+      music.play();
     });
-  }
 
-  function startHearts() {
-    const overlay = document.getElementById("overlay");
-    setInterval(() => {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.innerHTML = "💗";
-      heart.style.left = Math.random() * 100 + "%";
-      overlay.appendChild(heart);
-      setTimeout(() => heart.remove(), 7000);
-    }, 500);
-  }
-
-  function openInstagram() {
-    window.open("https://instagram.com/__mr_mystrie__", "_blank");
-  }
-</script>
+    revealBtn.addEventListener("click", () => {
+      revealBtn.style.display = "none";
+      videoBox.classList.add("show");
+      music.pause();
+      video.play();
+    });
+  </script>
 
 </body>
 </html>
