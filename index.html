@@ -8,44 +8,48 @@
   <style>
     body {
       margin: 0;
-      min-height: 100vh;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('photo.jpg') center/cover no-repeat;
+      overflow: hidden;
+    }
+
+    /* Dark overlay */
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: 'Segoe UI', sans-serif;
-      background:
-        linear-gradient(rgba(255,255,255,0.78), rgba(255,255,255,0.78)),
-        url('photo.jpg') center/cover no-repeat;
+      text-align: center;
+      color: white;
+      padding: 20px;
     }
 
-    .card {
-      background: rgba(255,255,255,0.95);
-      padding: 30px;
-      border-radius: 18px;
-      max-width: 380px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.18);
-      text-align: center;
+    .content {
+      max-width: 420px;
     }
 
     h1 {
-      color: #e63946;
-      margin-bottom: 18px;
+      color: #ffb3c1;
+      margin-bottom: 20px;
     }
 
     #text {
       font-size: 16px;
-      line-height: 1.7;
-      min-height: 180px;
+      line-height: 1.8;
+      min-height: 220px;
     }
 
     .cursor {
       display: inline-block;
       width: 2px;
       height: 18px;
-      background: #333;
+      background: white;
       animation: blink 1s infinite;
+      margin-left: 4px;
       vertical-align: bottom;
-      margin-left: 3px;
     }
 
     @keyframes blink {
@@ -54,16 +58,17 @@
     }
 
     .from {
-      margin-top: 20px;
+      margin-top: 18px;
       font-weight: bold;
+      color: #ffd6e0;
     }
 
     .reveal-btn {
       margin-top: 26px;
-      padding: 12px 22px;
+      padding: 12px 24px;
       border: none;
       border-radius: 30px;
-      background: #e63946;
+      background: #ff4d6d;
       color: white;
       font-size: 14px;
       cursor: pointer;
@@ -71,7 +76,7 @@
     }
 
     .video-box {
-      margin-top: 20px;
+      margin-top: 22px;
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 1s ease, transform 1s ease;
@@ -89,45 +94,57 @@
       border-radius: 14px;
     }
 
+    /* First tap screen */
     .tap-screen {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
       cursor: pointer;
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
-  <!-- First screen -->
-  <div id="tapScreen" class="card tap-screen">
-    <h1>💝</h1>
-    <p><strong>Tap to open your surprise</strong></p>
-    <p style="font-size:14px;">This one is just for you, Nithya</p>
-  </div>
-
-  <!-- Main content -->
-  <div id="mainCard" class="card" style="display:none;">
-    <h1>Happy Birthday, Nithya ❤️</h1>
-
-    <div id="text"></div><span class="cursor"></span>
-
-    <div class="from" id="from"></div>
-
-    <button id="revealBtn" class="reveal-btn">
-      Click to view another one 💌
-    </button>
-
-    <div id="videoBox" class="video-box">
-      <video id="memoryVideo" controls playsinline>
-        <source src="video.mp4" type="video/mp4">
-      </video>
+  <!-- Tap to start -->
+  <div id="tapScreen" class="tap-screen">
+    <div>
+      <h1>💝</h1>
+      <p><strong>Tap to open your surprise</strong></p>
+      <p style="font-size:14px;">This one is just for you, Nithya</p>
     </div>
   </div>
 
-  <!-- ✅ FIXED: song.mp3 -->
+  <!-- Main overlay -->
+  <div class="overlay">
+    <div class="content">
+      <h1>Happy Birthday, Nithya ❤️</h1>
+
+      <div id="text"></div><span class="cursor"></span>
+
+      <div class="from" id="from"></div>
+
+      <button id="revealBtn" class="reveal-btn">
+        Click to view another one 💌
+      </button>
+
+      <div id="videoBox" class="video-box">
+        <video id="memoryVideo" controls playsinline>
+          <source src="video.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+
+  <!-- Music -->
   <audio id="bgMusic" src="song.mp3"></audio>
 
   <script>
     const tapScreen = document.getElementById("tapScreen");
-    const mainCard = document.getElementById("mainCard");
     const textEl = document.getElementById("text");
     const fromEl = document.getElementById("from");
     const revealBtn = document.getElementById("revealBtn");
@@ -171,7 +188,6 @@
 
     tapScreen.addEventListener("click", () => {
       tapScreen.style.display = "none";
-      mainCard.style.display = "block";
       music.volume = 0.4;
       music.play();
       typeText();
