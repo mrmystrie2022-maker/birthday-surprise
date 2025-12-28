@@ -32,16 +32,19 @@
 
     /* Text overlay */
     .text-box {
-      background: rgba(0,0,0,0.35); /* LOW OPACITY BLACK */
+      background: rgba(0,0,0,0.35); /* black with low opacity */
       padding: 30px;
       max-width: 420px;
       border-radius: 16px;
-      color: #000; /* BLACK TEXT */
       text-align: center;
+      color: white;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.8); /* glow for readability */
     }
 
     h1 {
       margin-bottom: 18px;
+      color: #ffd6e0;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.9);
     }
 
     #text {
@@ -54,7 +57,7 @@
       display: inline-block;
       width: 2px;
       height: 18px;
-      background: black;
+      background: white;
       animation: blink 1s infinite;
       vertical-align: bottom;
       margin-left: 4px;
@@ -68,6 +71,7 @@
     .from {
       margin-top: 18px;
       font-weight: bold;
+      color: #ffe6ee;
     }
 
     .reveal-btn {
@@ -75,7 +79,7 @@
       padding: 12px 22px;
       border: none;
       border-radius: 30px;
-      background: black;
+      background: #000;
       color: white;
       font-size: 14px;
       cursor: pointer;
@@ -132,6 +136,7 @@
     </div>
   </div>
 
+  <!-- Music -->
   <audio id="bgMusic" src="song.mp3"></audio>
 
   <script>
