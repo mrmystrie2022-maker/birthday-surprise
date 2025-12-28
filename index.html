@@ -12,76 +12,52 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #fde2e4, #fad2e1);
       font-family: 'Segoe UI', sans-serif;
-      color: #333;
+      background:
+        linear-gradient(rgba(255,255,255,0.78), rgba(255,255,255,0.78)),
+        url('photo.jpg') center/cover no-repeat;
     }
 
-    .container {
-      width: 90%;
+    .card {
+      background: rgba(255,255,255,0.95);
+      padding: 30px;
+      border-radius: 18px;
       max-width: 380px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.18);
       text-align: center;
-    }
-
-    .box {
-      background: white;
-      padding: 28px;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-      position: relative;
-      z-index: 2;
-    }
-
-    .hidden {
-      display: none;
     }
 
     h1 {
       color: #e63946;
-      margin-bottom: 12px;
+      margin-bottom: 18px;
     }
 
-    p {
+    #text {
       font-size: 16px;
       line-height: 1.7;
+      min-height: 180px;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 18px;
+      background: #333;
+      animation: blink 1s infinite;
+      vertical-align: bottom;
+      margin-left: 3px;
+    }
+
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0; }
     }
 
     .from {
-      margin-top: 22px;
+      margin-top: 20px;
       font-weight: bold;
     }
 
-    /* First screen */
-    .tap-box {
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-
-    .tap-box:hover {
-      transform: scale(1.03);
-    }
-
-    /* Background memory photos */
-    .bg-photos {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 14px;
-      opacity: 0.2;
-      filter: blur(2px);
-      z-index: 1;
-    }
-
-    .bg-photos img {
-      width: 120px;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 16px;
-    }
-
-    /* Reveal button */
     .reveal-btn {
       margin-top: 26px;
       padding: 12px 22px;
@@ -91,120 +67,120 @@
       color: white;
       font-size: 14px;
       cursor: pointer;
+      display: none;
     }
 
-    .reveal-btn:hover {
-      opacity: 0.9;
-    }
-
-    /* Video section */
     .video-box {
-      margin-top: 22px;
+      margin-top: 20px;
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 1s ease, transform 1s ease;
+      display: none;
     }
 
     .video-box.show {
+      display: block;
       opacity: 1;
       transform: translateY(0);
     }
 
-    .video-box video {
+    video {
       width: 100%;
       border-radius: 14px;
+    }
+
+    .tap-screen {
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
+  <!-- First screen -->
+  <div id="tapScreen" class="card tap-screen">
+    <h1>💝</h1>
+    <p><strong>Tap to open your surprise</strong></p>
+    <p style="font-size:14px;">This one is just for you, Nithya</p>
+  </div>
 
-    <!-- First Tap Screen -->
-    <div id="surpriseBox" class="box tap-box">
-      <h1>💝</h1>
-      <p><strong>Tap here to open your surprise</strong></p>
-      <p style="font-size:14px;">This one is just for you, Nithya</p>
-    </div>
+  <!-- Main content -->
+  <div id="mainCard" class="card" style="display:none;">
+    <h1>Happy Birthday, Nithya ❤️</h1>
 
-    <!-- Message Screen -->
-    <div id="messageBox" class="box hidden">
+    <div id="text"></div><span class="cursor"></span>
 
-      <!-- Background photos -->
-      <div class="bg-photos">
-        <img src="photo1.jpg" alt="Us">
-        <img src="photo2.jpg" alt="Us">
-        <img src="photo3.jpg" alt="Us">
-      </div>
+    <div class="from" id="from"></div>
 
-      <h1>Happy Birthday, Nithya ❤️</h1>
+    <button id="revealBtn" class="reveal-btn">
+      Click to view another one 💌
+    </button>
 
-      <p>
-        Five years with you didn’t just pass.  
-        They stayed.  
-        In memories, in growth, in the quiet moments only we know.
-      </p>
-
-      <p>
-        You’ve seen me at my best and my worst,  
-        and somehow you chose to stay.  
-        That means more to me than words can explain.
-      </p>
-
-      <p>
-        With you, love feels steady.  
-        Safe.  
-        Real.
-      </p>
-
-      <p>
-        I don’t know what the future holds,  
-        but I know this —  
-        I want every version of it with you.
-      </p>
-
-      <div class="from">
-        — Madhan
-      </div>
-
-      <!-- Reveal button -->
-      <button id="revealBtn" class="reveal-btn">
-        Click to view another one 💌
-      </button>
-
-      <!-- Video -->
-      <div id="videoBox" class="video-box">
-        <video id="memoryVideo" controls playsinline>
-          <source src="video.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      </div>
-
+    <div id="videoBox" class="video-box">
+      <video id="memoryVideo" controls playsinline>
+        <source src="video.mp4" type="video/mp4">
+      </video>
     </div>
   </div>
 
-  <!-- Background Music -->
-  <audio id="bgMusic" src="music.mp3"></audio>
+  <!-- ✅ FIXED: song.mp3 -->
+  <audio id="bgMusic" src="song.mp3"></audio>
 
   <script>
-    const surpriseBox = document.getElementById("surpriseBox");
-    const messageBox = document.getElementById("messageBox");
-    const music = document.getElementById("bgMusic");
+    const tapScreen = document.getElementById("tapScreen");
+    const mainCard = document.getElementById("mainCard");
+    const textEl = document.getElementById("text");
+    const fromEl = document.getElementById("from");
     const revealBtn = document.getElementById("revealBtn");
     const videoBox = document.getElementById("videoBox");
     const video = document.getElementById("memoryVideo");
+    const music = document.getElementById("bgMusic");
 
-    surpriseBox.addEventListener("click", () => {
-      surpriseBox.style.display = "none";
-      messageBox.classList.remove("hidden");
+    const lines = [
+      "Five years with you didn’t just pass.",
+      "They stayed — in memories, in growth, in quiet moments only we know.",
+      "",
+      "You saw me at my best and my worst,",
+      "and still chose to stay.",
+      "",
+      "With you, love feels steady.",
+      "Safe. Real.",
+      "",
+      "I want every version of my future with you."
+    ];
+
+    let lineIndex = 0;
+    let charIndex = 0;
+
+    function typeText() {
+      if (lineIndex < lines.length) {
+        if (charIndex < lines[lineIndex].length) {
+          textEl.innerHTML += lines[lineIndex][charIndex];
+          charIndex++;
+          setTimeout(typeText, 40);
+        } else {
+          textEl.innerHTML += "<br><br>";
+          charIndex = 0;
+          lineIndex++;
+          setTimeout(typeText, 400);
+        }
+      } else {
+        fromEl.innerText = "— Madhan";
+        revealBtn.style.display = "inline-block";
+      }
+    }
+
+    tapScreen.addEventListener("click", () => {
+      tapScreen.style.display = "none";
+      mainCard.style.display = "block";
       music.volume = 0.4;
       music.play();
+      typeText();
     });
 
     revealBtn.addEventListener("click", () => {
       revealBtn.style.display = "none";
-      videoBox.classList.add("show");
       music.pause();
+      videoBox.classList.add("show");
       video.play();
     });
   </script>
